@@ -2811,8 +2811,14 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
     function enterApp(isNew) {
         var auth = document.getElementById('auth-screen');
         var ob = document.getElementById('onboarding-screen');
-        if (auth) auth.classList.remove('visible');
-        if (isNew && ob) ob.classList.add('visible');
+        if (auth) { auth.classList.remove('visible'); auth.style.display = 'none'; }
+        if (isNew && ob) {
+            ob.classList.add('visible');
+            ob.style.display = 'flex';
+        } else {
+            // Entra direttamente nell'app
+            if (typeof switchPage === 'function') switchPage('feed');
+        }
     }
 
     function nextObStep(step) {
@@ -2849,7 +2855,8 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
         FG_STORE.setItem(FGKEY, JSON.stringify(saved));
 
         var ob = document.getElementById('onboarding-screen');
-        if (ob) ob.classList.remove('visible');
+        if (ob) { ob.classList.remove('visible'); ob.style.display = 'none'; }
+        if (typeof switchPage === 'function') switchPage('feed');
         showToast('Benvenuto su FitGram! 🏆', 'success');
     }
 
